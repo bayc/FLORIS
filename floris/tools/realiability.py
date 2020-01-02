@@ -161,8 +161,10 @@ def calculate_farm_reliability(wind_speed, TI, component, fi, surf_dir):
     # 2) Assign L10 values to all turbines
     
     print(L10_T1_surface[0])
-    L10_matrix = np.full( (len(turb_label), len(turb_label)), float(L10_T1_surface[0]) )
-    # Power_matrix = np.full( (len(turb_label), len(turb_label)), float(Power_T1_surface[0]) )
+    L10_matrix = np.full( (len(turb_label), len(turb_label)),
+                           float(L10_T1_surface[0]) )
+    # Power_matrix = np.full( (len(turb_label), len(turb_label)),
+    #                          float(Power_T1_surface[0]) )
 
     turbs_to_analyse = []
 
@@ -173,21 +175,27 @@ def calculate_farm_reliability(wind_speed, TI, component, fi, surf_dir):
     for ii in list(combinations(turb_label, 2)):
         turb1 = ii[0] 
         turb2 = ii[1]
-        if abs(layout_x[turb2] - layout_x[turb1]) <= x_threshold and abs(layout_y[turb2] - layout_y[turb1]) <= y_threshold:
+        if abs(layout_x[turb2] - layout_x[turb1]) <= x_threshold and \
+           abs(layout_y[turb2] - layout_y[turb1]) <= y_threshold:
             turbs_to_analyse.append(ii)
             
-    # Assign L10 and power values; turbs are ordered in proximity to the incoming wind direction
+    # Assign L10 and power values; turbs are ordered in proximity to the
+    # incoming wind direction
 
     for ii in turbs_to_analyse:
         turb1 = ii[0]
         turb2 = ii[1]
-        L10_matrix[turb1][turb2] = L10_T2_surface(layout_y[turb2] - layout_y[turb1], layout_x[turb2] - layout_x[turb1])
-        # Power_matrix[turb1][turb2] = Power_T2_surface(layout_x[turb2],layout_y[turb2]) #kW/hr
+        L10_matrix[turb1][turb2] = L10_T2_surface(layout_y[turb2] \
+                                   - layout_y[turb1], layout_x[turb2] \
+                                   - layout_x[turb1])
+        # Power_matrix[turb1][turb2] = Power_T2_surface(layout_x[turb2],
+        #                                               layout_y[turb2]) #kW/hr
 
     #Find the minimum of each row (this is the minimum )
     for column in L10_matrix.T:
         Turbine_L10s = [min(column) for column in L10_matrix.T]
-        # Turbine_PowerVals = [Power_matrix.T[ii][np.argmin(column)] for ii, column in enumerate(L10_matrix.T)]
+        # Turbine_PowerVals = [Power_matrix.T[ii][np.argmin(column)] \
+        #                      for ii, column in enumerate(L10_matrix.T)]
 
     return Turbine_L10s
 
