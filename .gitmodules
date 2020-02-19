@@ -1,0 +1,3 @@
+[submodule "floris/tools/optimization/pyoptsparse"]
+	path = floris/tools/optimization/pyoptsparse
+	url = https://github.com/mdolab/pyoptsparse
